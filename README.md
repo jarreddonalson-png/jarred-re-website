@@ -5,7 +5,7 @@ Custom WordPress theme built for a personal-brand real estate site.
 **Fonts:** Cormorant Garamond (display) + Inter (body)
 
 ---
-
+ 
 ## Project Structure
 
 ```
