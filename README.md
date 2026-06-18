@@ -4,7 +4,7 @@ Custom WordPress theme built for a personal-brand real estate site.
 **Colors:** Black `#000000` + Gold `#ba871d`  
 **Fonts:** Cormorant Garamond (display) + Inter (body)
 
----
+---  
  
 ## Project Structure
 
