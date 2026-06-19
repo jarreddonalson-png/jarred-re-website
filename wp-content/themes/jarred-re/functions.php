@@ -148,11 +148,16 @@ function jarred_re_customizer( $wp_customize ) {
         'agent_phone'     => [ 'Phone Number',            'text',     '' ],
         'agent_email'     => [ 'Email Address',           'email',    '' ],
         'agent_license'   => [ 'License Number',          'text',     '' ],
-        'agent_brokerage' => [ 'Brokerage Name',          'text',     '' ],
+        'agent_brokerage' => [ 'Brokerage Name',          'text',     'Keller Williams KC North' ],
         'agent_bio_short' => [ 'Short Bio (hero tagline)','textarea',  'Helping Kansas City families find their next home with honesty, expertise, and care.' ],
         'facebook_url'    => [ 'Facebook URL',            'url',      '' ],
         'instagram_url'   => [ 'Instagram URL',           'url',      '' ],
         'linkedin_url'    => [ 'LinkedIn URL',            'url',      '' ],
+        'footer_brand_name'  => [ 'Footer: Brand Name',      'text',  'Reside in Kansas City' ],
+        'footer_brand_phone' => [ 'Footer: Brand Phone',     'text',  '816-719-0829' ],
+        'footer_brand_email' => [ 'Footer: Brand Email',     'email', 'jarred.donalson@kw.com' ],
+        'brokerage_phone'    => [ 'Footer: Brokerage Phone', 'text',  '816-452-4200' ],
+        'brokerage_address'  => [ 'Footer: Brokerage Address','text', '310 NW Englewood Rd, Kansas City, MO 64118' ],
     ];
 
     $wp_customize->add_section( 'jarred_agent_section', [
