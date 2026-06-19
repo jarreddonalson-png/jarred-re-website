@@ -3,7 +3,7 @@ Theme Name: Jarred Real Estate
 Theme URI: https://yoursite.com
 Author: Jarred
 Description: Custom real estate theme — personal brand focused, black & gold.
-Version: 1.0.2
+Version: 1.0.3
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -268,7 +268,7 @@ p:last-child { margin-bottom: 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 88px;
+  height: 96px;
 }
 
 .site-logo {
@@ -314,9 +314,9 @@ p:last-child { margin-bottom: 0; }
 }
 
 .site-nav a {
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.8);
   transition: color var(--transition);
