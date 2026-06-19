@@ -15,19 +15,18 @@
 <header id="site-header" class="site-header <?php echo is_front_page() ? '' : 'header--opaque'; ?>">
     <div class="header-inner">
 
-        <!-- Logo / Name -->
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo" aria-label="<?php bloginfo( 'name' ); ?> Home">
-            <?php
-            $agent_name = get_theme_mod( 'agent_name', 'Jarred' );
-            $parts = explode( ' ', trim( $agent_name ) );
-            if ( count( $parts ) >= 2 ) {
-                $last = array_pop( $parts );
-                echo esc_html( implode( ' ', $parts ) ) . ' <span>' . esc_html( $last ) . '</span>';
-            } else {
-                echo '<span>' . esc_html( $agent_name ) . '</span>';
-            }
-            ?>
-        </a>
+        <!-- Logo lockup: Reside mark + Keller Williams brokerage logo -->
+<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header-logos" aria-label="<?php bloginfo( 'name' ); ?> Home">
+    <img
+        src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/logo-reside.png"
+        alt="Reside in KC"
+        class="header-logo header-logo--reside">
+    <span class="header-logo-divider" aria-hidden="true"></span>
+    <img
+        src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/logo-kw.png"
+        alt="Keller Williams Kansas City North"
+        class="header-logo header-logo--kw">
+</a>
 
         <!-- Primary Navigation -->
         <nav id="site-nav" class="site-nav" aria-label="Primary">
