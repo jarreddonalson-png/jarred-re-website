@@ -1,5 +1,5 @@
 <?php
-$agent_name  = get_theme_mod( 'agent_name',      'Jarred' );
+$agent_name  = get_theme_mod( 'agent_name',      'Jarred Donalson' );
 $agent_title = get_theme_mod( 'agent_title',     'REALTOR®' );
 $phone       = get_theme_mod( 'agent_phone',     '' );
 $email       = get_theme_mod( 'agent_email',     '' );
@@ -117,8 +117,7 @@ $brokerage_address  = get_theme_mod( 'brokerage_address',  '310 NW Englewood Rd,
         <p class="realtor-disclaimer">
             <?php
             printf(
-                esc_html__( '%1$s is a licensed real estate agent in the State of Missouri%2$s. Information deemed reliable but not guaranteed. Equal Housing Opportunity.', 'jarred-re' ),
-                esc_html( $agent_name ),
+esc_html__( '%1$s is a licensed real estate agent in the States of Missouri and Kansas%2$s. Information deemed reliable but not guaranteed. Equal Housing Opportunity.', 'jarred-re' ),                esc_html( $agent_name ),
                 $brokerage ? ' with ' . esc_html( $brokerage ) : ''
             );
             ?>

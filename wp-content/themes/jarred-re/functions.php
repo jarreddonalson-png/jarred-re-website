@@ -143,7 +143,7 @@ function jarred_re_customizer( $wp_customize ) {
     ] );
 
     $fields = [
-        'agent_name'      => [ 'Agent Name',             'text',     'Jarred' ],
+        'agent_name'      => [ 'Agent Name',             'text',     'Jarred Donalson' ],
         'agent_title'     => [ 'Title / License',         'text',     'REALTOR® | Kansas City' ],
         'agent_phone'     => [ 'Phone Number',            'text',     '' ],
         'agent_email'     => [ 'Email Address',           'email',    '' ],
