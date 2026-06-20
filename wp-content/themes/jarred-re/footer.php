@@ -1,13 +1,21 @@
 <?php
+<?php
 $agent_name  = get_theme_mod( 'agent_name',      'Jarred' );
 $agent_title = get_theme_mod( 'agent_title',     'REALTOR®' );
 $phone       = get_theme_mod( 'agent_phone',     '' );
 $email       = get_theme_mod( 'agent_email',     '' );
-$brokerage   = get_theme_mod( 'agent_brokerage', '' );
+$brokerage   = get_theme_mod( 'agent_brokerage', 'Keller Williams KC North' );
 $facebook    = get_theme_mod( 'facebook_url',    '' );
 $instagram   = get_theme_mod( 'instagram_url',   '' );
 $linkedin    = get_theme_mod( 'linkedin_url',    '' );
 $year        = date( 'Y' );
+
+// Footer contact block
+$footer_brand_name  = get_theme_mod( 'footer_brand_name',  'Reside in Kansas City' );
+$footer_brand_phone = get_theme_mod( 'footer_brand_phone', '816-719-0829' );
+$footer_brand_email = get_theme_mod( 'footer_brand_email', 'jarred.donalson@kw.com' );
+$brokerage_phone    = get_theme_mod( 'brokerage_phone',    '816-452-4200' );
+$brokerage_address  = get_theme_mod( 'brokerage_address',  '310 NW Englewood Rd, Kansas City, MO 64118' );
 ?>
 
 </main><!-- /#main -->
@@ -16,27 +24,29 @@ $year        = date( 'Y' );
     <div class="container">
         <div class="footer-grid">
 
-            <!-- Brand column -->
-            <div class="footer-brand">
-                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo" style="display:inline-block; margin-bottom:1rem;">
-                    <?php
-                    $parts = explode( ' ', trim( $agent_name ) );
-                    if ( count( $parts ) >= 2 ) {
-                        $last = array_pop( $parts );
-                        echo esc_html( implode( ' ', $parts ) ) . ' <span>' . esc_html( $last ) . '</span>';
-                    } else {
-                        echo '<span>' . esc_html( $agent_name ) . '</span>';
-                    }
-                    ?>
-                </a>
-                <p><?php echo esc_html( $agent_title ); ?><?php echo $brokerage ? ' &mdash; ' . esc_html( $brokerage ) : ''; ?></p>
-                <?php if ( $phone ) : ?>
-                    <p><a href="tel:<?php echo esc_attr( preg_replace( '/\D/', '', $phone ) ); ?>" style="color:var(--gold)"><?php echo esc_html( $phone ); ?></a></p>
-                <?php endif; ?>
-                <?php if ( $email ) : ?>
-                    <p><a href="mailto:<?php echo esc_attr( $email ); ?>" style="color:rgba(255,255,255,0.5); font-size:0.875rem"><?php echo esc_html( $email ); ?></a></p>
-                <?php endif; ?>
-            </div>
+    <!-- Brand column -->
+<div class="footer-brand footer-brand--split">
+    <div class="footer-brand-block">
+        <h5><?php echo esc_html( $footer_brand_name ); ?></h5>
+        <?php if ( $footer_brand_phone ) : ?>
+            <p><a href="tel:<?php echo esc_attr( preg_replace( '/\D/', '', $footer_brand_phone ) ); ?>"><?php echo esc_html( $footer_brand_phone ); ?></a></p>
+        <?php endif; ?>
+        <?php if ( $footer_brand_email ) : ?>
+            <p><a href="mailto:<?php echo esc_attr( $footer_brand_email ); ?>"><?php echo esc_html( $footer_brand_email ); ?></a></p>
+        <?php endif; ?>
+    </div>
+
+    <div class="footer-brand-block">
+        <h5><?php echo esc_html( $brokerage ); ?></h5>
+        <?php if ( $brokerage_phone ) : ?>
+            <p><a href="tel:<?php echo esc_attr( preg_replace( '/\D/', '', $brokerage_phone ) ); ?>"><?php echo esc_html( $brokerage_phone ); ?></a></p>
+        <?php endif; ?>
+        <?php if ( $brokerage_address ) : ?>
+            <p><?php echo esc_html( $brokerage_address ); ?></p>
+        <?php endif; ?>
+    </div>
+</div>
+
 
             <!-- Quick Links -->
             <div class="footer-col">
