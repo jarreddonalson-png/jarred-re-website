@@ -1,5 +1,4 @@
 <?php
-<?php
 $agent_name  = get_theme_mod( 'agent_name',      'Jarred' );
 $agent_title = get_theme_mod( 'agent_title',     'REALTOR®' );
 $phone       = get_theme_mod( 'agent_phone',     '' );
