@@ -19,12 +19,8 @@ $agent_photo = get_theme_mod( 'agent_photo',     '' );
     <div class="container">
         <div class="about-split">
             <div class="about-split__image">
-                <?php if ( $agent_photo ) : ?>
-                    <img src="<?php echo esc_url( $agent_photo ); ?>" alt="<?php echo esc_attr( $agent_name ); ?>">
-                <?php else : ?>
-                    <div style="width:100%;aspect-ratio:4/5;background:var(--gray-100);display:flex;align-items:center;justify-content:center;border-radius:var(--radius);font-size:5rem;">👤</div>
-                <?php endif; ?>
-            </div>
+    <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/agent-photo.jpg" alt="<?php echo esc_attr( $agent_name ); ?>" loading="lazy">
+</div>
             <div>
                 <span class="eyebrow"><?php echo esc_html( $agent_title ); ?></span>
                 <span class="gold-rule"></span>
