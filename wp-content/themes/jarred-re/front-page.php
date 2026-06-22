@@ -57,19 +57,12 @@ $agent_bio_short = get_theme_mod( 'agent_bio_short', 'Helping Kansas City famili
     <div class="container">
         <div class="about-split">
             <div class="about-split__image">
-                <?php
-                $agent_photo = get_theme_mod( 'agent_photo', '' );
-                if ( $agent_photo ) {
-                    echo '<img src="' . esc_url( $agent_photo ) . '" alt="' . esc_attr( $agent_name ) . '" loading="lazy">';
-                } else {
-                    echo '<div style="width:100%;aspect-ratio:4/5;background:var(--gray-100);display:flex;align-items:center;justify-content:center;border-radius:var(--radius);color:var(--gray-300);font-size:5rem;">👤</div>';
-                }
-                ?>
-            </div>
+    <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/agent-photo.jpg" alt="<?php echo esc_attr( $agent_name ); ?>" loading="lazy">
+</div>
             <div class="about-split__body">
                 <span class="eyebrow">About Me</span>
                 <span class="gold-rule"></span>
-                <h2>I Know These Streets.<br>I'll Fight for Your Deal.</h2>
+                <h2>Kansas City Native.<br>I'll Fight for Your Deal.</h2>
                 <p class="lead">Kansas City isn't just my market — it's my home. I've spent over a decade learning every neighborhood, price trend, and hidden gem so you don't have to.</p>
                 <p>Whether you're buying your first home, upsizing, or preparing to sell, I bring a calm, straightforward approach backed by real data and genuine care for your outcome.</p>
                 <a href="<?php echo esc_url( home_url( '/about' ) ); ?>" class="btn btn--ghost">My Story</a>
