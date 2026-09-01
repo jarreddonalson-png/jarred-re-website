@@ -318,7 +318,7 @@ p:last-child { margin-bottom: 0; }
   font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: color: #111010;;
+  color: rgba(255, 255, 255, 0.8);
   transition: color var(--transition);
   position: relative;
 }
@@ -346,6 +346,11 @@ p:last-child { margin-bottom: 0; }
 
 .nav-cta {
   margin-left: var(--space-sm);
+}
+
+/* CTA button: override nav link color so dark text sits on gold background */
+.nav-cta .btn--primary {
+  color: var(--black);
 }
 
 .menu-toggle {
