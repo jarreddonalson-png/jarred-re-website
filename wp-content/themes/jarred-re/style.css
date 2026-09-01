@@ -318,7 +318,7 @@ p:last-child { margin-bottom: 0; }
   font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.8);
+  color: color: #111010;;
   transition: color var(--transition);
   position: relative;
 }
