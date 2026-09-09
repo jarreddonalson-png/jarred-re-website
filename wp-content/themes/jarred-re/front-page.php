@@ -7,7 +7,7 @@ get_header();
 
 $agent_name      = get_theme_mod( 'agent_name',      'Jarred' );
 $agent_title     = get_theme_mod( 'agent_title',     'REALTOR® | Kansas City' );
-$agent_bio_short = get_theme_mod( 'agent_bio_short', 'Helping Kansas City families find their next home with honesty, expertise, and care.' );
+$agent_bio_short = get_theme_mod( 'agent_bio_short', 'Real guidance for one of the biggest decisions of your life — from someone rooted in Kansas City.' );
 ?>
 
 <!-- ============================================================
@@ -17,7 +17,7 @@ $agent_bio_short = get_theme_mod( 'agent_bio_short', 'Helping Kansas City famili
     <div class="hero__bg" style="--hero-bg: url('<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/hero-bg.jpg')"></div>
     <div class="hero__content">
         <span class="eyebrow"><?php echo esc_html( $agent_title ); ?></span>
-        <h1>Your Kansas City<br><em>Real Estate Expert</em></h1>
+        <h1>Kansas City Real Estate<br><em>for the Life You're Building</em></h1>
         <p class="lead"><?php echo esc_html( $agent_bio_short ); ?></p>
         <div class="hero__actions">
             <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="btn btn--primary">Let's Talk</a>
