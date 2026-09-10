@@ -915,6 +915,27 @@ p:last-child { margin-bottom: 0; }
   line-height: 1.6;
 }
 
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: var(--space-sm);
+}
+
+.footer-legal .eho-logo {
+  width: 36px;
+  height: auto;
+  flex-shrink: 0;
+  opacity: 0.45;
+  filter: invert(1);
+}
+
+.footer-legal p {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.3);
+  margin: 0;
+}
+
 /* ============================================================
    SKIP LINK (ACCESSIBILITY)
    ============================================================ */

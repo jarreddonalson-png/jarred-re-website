@@ -114,6 +114,17 @@ $brokerage_address  = get_theme_mod( 'brokerage_address',  '310 NW Englewood Rd,
             </div>
         </div>
 
+        <div class="footer-legal">
+            <img
+                src="<?php echo get_template_directory_uri(); ?>/assets/images/equal-housing-opportunity.png"
+                alt="Equal Housing Opportunity"
+                class="eho-logo"
+                width="36"
+                height="36"
+            />
+            <p>Each Office Independently Owned &amp; Operated</p>
+        </div>
+
         <p class="realtor-disclaimer">
             <?php
             printf(
