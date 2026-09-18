@@ -5,7 +5,7 @@
  */
 get_header(); ?>
 
-<section style="background:var(--black); padding:75px 0 var(--space-lg);">
+<section style="background:var(--black); padding:75px 0 var(--space-sm);">
     <div class="container">
         <h1 style="color:var(--white)"><?php the_title(); ?></h1>
     </div>
