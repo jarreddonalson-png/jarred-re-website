@@ -1022,5 +1022,6 @@ p:last-child { margin-bottom: 0; }
    IDX SEARCH PAGE — FULL WIDTH OVERRIDE
    ============================================================ */
 .page-id-145 .container--narrow {
-  max-width: var(--max-width);
+  max-width: 100% !important;
+  width: 100% !important;
 }
