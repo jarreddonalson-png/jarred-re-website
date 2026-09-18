@@ -1018,3 +1018,9 @@ p:last-child { margin-bottom: 0; }
   .site-header, .site-footer, .hero__bg { display: none; }
   body { color: #000; }
 }
+/* ============================================================
+   IDX SEARCH PAGE — FULL WIDTH OVERRIDE
+   ============================================================ */
+.page-id-145 .container--narrow {
+  max-width: var(--max-width);
+}
