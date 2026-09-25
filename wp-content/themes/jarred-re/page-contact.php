@@ -63,7 +63,7 @@
                 $phone    = get_theme_mod( 'agent_phone', '816-719-0829' );
                 $email    = get_theme_mod( 'agent_email', 'jarred.donalson@kw.com' );
                 $facebook = get_theme_mod( 'facebook_url', 'https://www.facebook.com/resideinkc' );
-                $insta    = get_theme_mod( 'instagram_url', '' );
+                $insta    = get_theme_mod( 'instagram_url', 'https://www.instagram.com/resideinkc/' );
                 ?>
 
                 <div style="display:flex; flex-direction:column; gap:var(--space-md)">
@@ -86,6 +86,24 @@
                         </div>
                     </div>
                     <?php endif; ?>
+                       <?php if ( $facebook || $insta ) : ?>
+   <div style="display:flex; gap:1rem; align-items:flex-start">
+       <div style="width:48px;height:48px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--black)" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="var(--black)"/></svg>
+       </div>
+       <div>
+           <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray-500);margin-bottom:4px">Follow Along</div>
+           <div style="display:flex; flex-direction:column; gap:4px">
+               <?php if ( $facebook ) : ?>
+               <a href="<?php echo esc_url( $facebook ); ?>" target="_blank" rel="noopener" style="font-size:1rem; color:var(--black)">Facebook</a>
+               <?php endif; ?>
+               <?php if ( $insta ) : ?>
+               <a href="<?php echo esc_url( $insta ); ?>" target="_blank" rel="noopener" style="font-size:1rem; color:var(--black)">Instagram</a>
+               <?php endif; ?>
+           </div>
+       </div>
+   </div>
+   <?php endif; ?>
 
                     <div style="padding:var(--space-md); background:var(--off-white); border-radius:var(--radius); border-left:3px solid var(--gold)">
                         <p style="font-size:0.9rem; color:var(--gray-700); margin:0">Typical response time is within a few hours during business hours. For urgent matters, a call is always fastest.</p>
