@@ -60,9 +60,9 @@
                 <h2 style="margin-bottom:var(--space-md)">Direct Contact</h2>
 
                 <?php
-                $phone    = get_theme_mod( 'agent_phone', '' );
-                $email    = get_theme_mod( 'agent_email', '' );
-                $facebook = get_theme_mod( 'facebook_url', '' );
+                $phone    = get_theme_mod( 'agent_phone', '816-719-0829' );
+                $email    = get_theme_mod( 'agent_email', 'jarred.donalson@kw.com' );
+                $facebook = get_theme_mod( 'facebook_url', 'https://www.facebook.com/resideinkc' );
                 $insta    = get_theme_mod( 'instagram_url', '' );
                 ?>
 
