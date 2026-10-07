@@ -3,7 +3,7 @@ Theme Name: Jarred Real Estate
 Theme URI: https://yoursite.com
 Author: Jarred
 Description: Custom real estate theme — personal brand focused, black & gold.
-Version: 1.0.8
+Version: 1.0.9
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -358,6 +358,82 @@ p:last-child { margin-bottom: 0; }
 /* CTA button: override nav link color so dark text sits on gold background */
 .nav-cta .btn--primary {
   color: var(--black);
+}
+
+/* Dropdown: a menu item with sub-items (set in Appearance > Menus) */
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Keeps the arrow beside the label even when the label wraps to two lines */
+.nav-item > a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-caret {
+  flex-shrink: 0;
+  margin-left: 7px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--gold);
+  vertical-align: middle;
+}
+
+.nav-sub {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: -20px;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  background: var(--black);
+  border: 1px solid rgba(186, 135, 29, 0.3);
+  border-top: 2px solid var(--gold);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+  z-index: 101;
+}
+
+/* Invisible bridge so the menu stays open while the mouse moves down to it */
+.nav-sub::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -18px;
+  height: 18px;
+}
+
+.nav-item:hover > .nav-sub,
+.nav-item:focus-within > .nav-sub {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.site-nav .nav-sub a {
+  padding: 11px 20px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+
+.site-nav .nav-sub a::after {
+  display: none;
+}
+
+.site-nav .nav-sub a:hover,
+.site-nav .nav-sub a:focus-visible,
+.site-nav .nav-sub a.active {
+  color: var(--white);
+  background: rgba(186, 135, 29, 0.16);
 }
 
 .menu-toggle {
@@ -994,6 +1070,32 @@ p:last-child { margin-bottom: 0; }
 
   .site-nav.open { display: flex; }
   .site-nav a { font-size: 1.2rem; }
+
+  /* Dropdown items sit in the list under their parent on phones */
+  .nav-item { flex-direction: column; gap: 14px; }
+  .nav-caret { display: none; }
+  .nav-sub {
+    position: static;
+    min-width: 0;
+    align-items: center;
+    gap: 14px;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .nav-sub::before { display: none; }
+  .site-nav .nav-sub a {
+    padding: 0;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.62);
+  }
+  .site-nav .nav-sub a:hover,
+  .site-nav .nav-sub a:focus-visible,
+  .site-nav .nav-sub a.active { background: none; }
 
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .about-split { grid-template-columns: 1fr; }
