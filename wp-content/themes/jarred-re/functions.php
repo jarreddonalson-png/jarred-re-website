@@ -327,3 +327,71 @@ function jarred_re_localize_ajax() {
     ] );
 }
 add_action( 'wp_enqueue_scripts', 'jarred_re_localize_ajax', 20 );
+
+/* ============================================================
+   INHERITED HOME GUIDE — LEAD MAGNET
+   ============================================================ */
+function jarred_re_inherited_guide_url() {
+    $custom = get_theme_mod( 'inherited_guide_pdf_url', '' );
+    return $custom ? $custom : get_template_directory_uri() . '/assets/downloads/kansas-city-inherited-home-guide.pdf';
+}
+
+function jarred_re_handle_inherited_guide() {
+    check_ajax_referer( 'jarred_contact_nonce', 'nonce' );
+
+    $pdf = jarred_re_inherited_guide_url();
+
+    // Honeypot: bots fill the hidden field. Pretend success, send nothing.
+    if ( ! empty( $_POST['website'] ) ) {
+        wp_send_json_success( [ 'url' => $pdf ] );
+    }
+
+    $name  = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
+    $email = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
+    $phone = sanitize_text_field( wp_unslash( $_POST['phone'] ?? '' ) );
+    $stage = sanitize_text_field( wp_unslash( $_POST['stage'] ?? '' ) );
+
+    if ( ! $name || ! is_email( $email ) ) {
+        wp_send_json_error( [ 'message' => 'Please add your first name and a valid email address.' ] );
+    }
+
+    $agent_email  = get_theme_mod( 'agent_email', get_option( 'admin_email' ) );
+    $agent_phone  = get_theme_mod( 'agent_phone', '816-719-0829' );
+    $office_phone = get_theme_mod( 'brokerage_phone', '816-452-4200' );
+
+    // 1) Lead notification to Jarred
+    $lead_body = "New Inherited Home Guide request\n\n"
+        . "Name: {$name}\nEmail: {$email}\nPhone: " . ( $phone ?: '(not given)' ) . "\n"
+        . "Where they are: {$stage}\nPage: " . esc_url_raw( wp_get_referer() ) . "\n"
+        . 'Time: ' . wp_date( 'M j, Y g:i a' );
+    wp_mail(
+        $agent_email,
+        "Inherited Home Guide request: {$name}",
+        $lead_body,
+        [ "Reply-To: {$name} <{$email}>", 'Content-Type: text/plain; charset=UTF-8' ]
+    );
+
+    // 2) Guide delivery to the visitor (emails are advertising: brokerage info required)
+    $guest_body = "Hi {$name},\n\n"
+        . "Thank you for requesting The Kansas City Inherited Home Guide. You can download it here:\n{$pdf}\n\n"
+        . "You don't have to figure it all out this week. Start with the first 30 days, and when you're ready to talk through your situation, just reply to this email or call me.\n\n"
+        . "Jarred Donalson, REALTOR\xC2\xAE\n"
+        . "Reside in Kansas City | Keller Williams Kansas City North\n"
+        . "Cell {$agent_phone} | Office {$office_phone}\n"
+        . "{$agent_email} | resideinkc.com\n"
+        . "310 NW Englewood Rd, Kansas City, MO 64118\n"
+        . "Each Office Independently Owned & Operated. Equal Housing Opportunity.\n\n"
+        . "This guide is general information only, not legal, tax or financial advice. "
+        . "Nothing in this email is binding without a fully signed written agreement.";
+    wp_mail(
+        $email,
+        'Your Kansas City Inherited Home Guide',
+        $guest_body,
+        [ "Reply-To: Jarred Donalson <{$agent_email}>", 'Content-Type: text/plain; charset=UTF-8' ]
+    );
+
+    // Give the download even if a mail send hiccups.
+    wp_send_json_success( [ 'url' => $pdf ] );
+}
+add_action( 'wp_ajax_jarred_inherited_guide',        'jarred_re_handle_inherited_guide' );
+add_action( 'wp_ajax_nopriv_jarred_inherited_guide', 'jarred_re_handle_inherited_guide' );
