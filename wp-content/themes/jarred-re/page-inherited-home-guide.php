@@ -381,6 +381,71 @@ get_header();
 	</div>
 </section>
 
+<!-- ============ HELPFUL RESOURCES (internal + outbound links) ============ -->
+<?php
+// Finds each blog post by words in its title and returns its link. Missing posts are skipped.
+$ihg_related = [
+	'You Inherited a Home in Kansas City'       => 'What to do with an inherited home, and what you actually have time for',
+	'Selling a Vacant Home'                     => 'Selling a vacant home in Kansas City',
+	'Price and Sell a Home That Needs Work'     => 'Pricing a home that needs work without leaving money on the table',
+	'Actually Walk Away With After Closing'     => 'What Kansas City sellers actually walk away with after closing',
+	'Required to Disclose'                      => 'What Missouri sellers are required to disclose',
+];
+$ihg_related_links = [];
+foreach ( $ihg_related as $ihg_find => $ihg_label ) {
+	$ihg_q = new WP_Query( [
+		's'                   => $ihg_find,
+		'search_columns'      => [ 'post_title' ],
+		'post_type'           => 'post',
+		'post_status'         => 'publish',
+		'posts_per_page'      => 1,
+		'no_found_rows'       => true,
+		'ignore_sticky_posts' => true,
+	] );
+	if ( $ihg_q->have_posts() ) {
+		$ihg_related_links[] = [ 'url' => get_permalink( $ihg_q->posts[0] ), 'label' => $ihg_label ];
+	}
+	wp_reset_postdata();
+}
+?>
+<style>
+.ihg-res { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+.ihg-res h3 { font-size: 1.5rem; margin-bottom: var(--space-sm); }
+.ihg-res li { border-bottom: 1px solid var(--gray-300); }
+.ihg-res a { display: block; padding: 14px 24px 14px 0; position: relative; color: var(--black); font-weight: 500; }
+.ihg-res a::after { content: "\2192"; position: absolute; right: 0; color: var(--gold-ink); }
+.ihg-res a:hover { color: var(--gold-ink); }
+.ihg-res small { display: block; font-weight: 400; color: #696969; margin-top: 2px; }
+@media (max-width: 900px) { .ihg-res { grid-template-columns: 1fr; } }
+</style>
+<section class="section">
+	<div class="container">
+		<div class="ihg-section-head">
+			<span class="eyebrow ihg-eyebrow-ink">Keep Reading</span>
+			<span class="gold-rule"></span>
+			<h2>Helpful resources for Kansas City families</h2>
+		</div>
+		<div class="ihg-res">
+			<?php if ( $ihg_related_links ) : ?>
+			<div>
+				<h3>From the Reside in Kansas City blog</h3>
+				<ul>
+					<?php foreach ( $ihg_related_links as $ihg_link ) : ?>
+						<li><a href="<?php echo esc_url( $ihg_link['url'] ); ?>"><?php echo esc_html( $ihg_link['label'] ); ?></a></li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+			<?php endif; ?>
+			<div>
+				<h3>Official resources</h3>
+				<ul>
+					<li><a href="https://www.irs.gov/publications/p551" target="_blank" rel="noopener">IRS Publication 551: Basis of Assets<small>How the cost basis of inherited property is set (bring this to your CPA)</small></a></li>
+					<li><a href="https://self-help.kscourts.gov/" target="_blank" rel="noopener">Kansas Judicial Branch Self-Help Center<small>Court information for families on the Kansas side</small></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
 <!-- ============ FINAL CTA ============ -->
 <section class="section section--dark">
 	<div class="container ihg-final">
