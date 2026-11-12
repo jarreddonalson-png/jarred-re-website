@@ -395,3 +395,122 @@ function jarred_re_handle_inherited_guide() {
 }
 add_action( 'wp_ajax_jarred_inherited_guide',        'jarred_re_handle_inherited_guide' );
 add_action( 'wp_ajax_nopriv_jarred_inherited_guide', 'jarred_re_handle_inherited_guide' );
+/* ============================================================
+   SELLER NET CALCULATOR — EMAIL RESULTS
+   Used by the calculator on the /seller-net-calculator/ page.
+   Only numbers are accepted from the browser; every label and
+   all wording in the email are written here, so the form can't
+   be used to send someone else's text.
+   ============================================================ */
+function jarred_re_handle_seller_net() {
+    check_ajax_referer( 'jarred_contact_nonce', 'nonce' );
+
+    // Honeypot: bots fill the hidden field. Pretend success, send nothing.
+    if ( ! empty( $_POST['website'] ) ) {
+        wp_send_json_success( [ 'message' => 'Sent. Check your inbox.' ] );
+    }
+
+    $name  = mb_substr( sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) ), 0, 60 );
+    $email = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
+    $phone = mb_substr( sanitize_text_field( wp_unslash( $_POST['phone'] ?? '' ) ), 0, 30 );
+
+    if ( ! $name || ! is_email( $email ) ) {
+        wp_send_json_error( [ 'message' => 'Please add your first name and a valid email address.' ] );
+    }
+
+    // Simple limit: 5 sends per visitor per hour.
+    $key   = 'snc_' . md5( $_SERVER['REMOTE_ADDR'] ?? '' );
+    $count = (int) get_transient( $key );
+    if ( $count >= 5 ) {
+        wp_send_json_error( [ 'message' => 'Too many requests. Please try again in a little while.' ] );
+    }
+    set_transient( $key, $count + 1, HOUR_IN_SECONDS );
+
+    $n = function ( $k ) {
+        $v = isset( $_POST[ $k ] ) ? (float) $_POST[ $k ] : 0;
+        return ( $v > 0 && $v < 100000000 ) ? $v : 0;
+    };
+    $price = $n( 'price' );
+    if ( ! $price ) {
+        wp_send_json_error( [ 'message' => 'Enter an expected sale price first.' ] );
+    }
+
+    $lines = [
+        'Loan payoff'                   => $n( 'loans' ),
+        'Listing agent fee'             => $n( 'listFee' ),
+        "Buyer's agent compensation"    => $n( 'buyFee' ),
+        'Title, escrow and closing fees'=> $n( 'title' ),
+        'Property tax credit to buyer'  => $n( 'tax' ),
+        'Credits to the buyer'          => $n( 'concess' ),
+        'Repairs and prep'              => $n( 'repairs' ),
+        'Home warranty'                 => $n( 'warranty' ),
+        'HOA fees'                      => $n( 'hoa' ),
+        'Other costs'                   => $n( 'other' ),
+    ];
+    $net = $price - array_sum( $lines );
+
+    $close = sanitize_text_field( wp_unslash( $_POST['close'] ?? '' ) );
+    $close = preg_match( '/^\d{4}-\d{2}-\d{2}$/', $close ) ? wp_date( 'F j, Y', strtotime( $close . ' 12:00:00' ) ) : '';
+
+    $money = function ( $v ) {
+        return ( $v < 0 ? '-$' : '$' ) . number_format( abs( round( $v ) ) );
+    };
+
+    $sheet = "Expected sale price: " . $money( $price ) . "\n";
+    if ( $close ) {
+        $sheet .= "Expected closing date: {$close}\n";
+    }
+    $sheet .= "\n";
+    foreach ( $lines as $label => $v ) {
+        if ( $v ) {
+            $sheet .= "{$label}: -" . $money( $v ) . "\n";
+        }
+    }
+    $sheet .= "\nESTIMATED NET PROCEEDS: " . $money( $net ) . "\n";
+
+    $agent_email  = get_theme_mod( 'agent_email', get_option( 'admin_email' ) );
+    $agent_phone  = get_theme_mod( 'agent_phone', '816-719-0829' );
+    $office_phone = get_theme_mod( 'brokerage_phone', '816-452-4200' );
+
+    // 1) Results to the visitor (emails are advertising: full brokerage block required)
+    $guest_body = "Hi {$name},\n\n"
+        . "Here is the estimate you ran on the Reside in Kansas City seller net calculator.\n\n"
+        . $sheet . "\n"
+        . "This is a planning estimate, not a guarantee of sale price, costs, or proceeds, and it is not legal or tax advice. "
+        . "Your final figures come from the settlement statement at closing.\n\n"
+        . "If you'd like a net sheet built on real comparable sales for your home, reply to this email or call me.\n\n"
+        . "Jarred Donalson, REALTOR\xC2\xAE | Reside in Kansas City\n"
+        . "{$agent_phone} | {$agent_email} | resideinkc.com\n"
+        . "Keller Williams Kansas City North | {$office_phone}\n"
+        . "310 NW Englewood Rd, Kansas City, MO 64118\n"
+        . "Each Office Independently Owned & Operated | Equal Housing Opportunity\n\n"
+        . "You received this because you asked for your results at resideinkc.com and agreed to be contacted. "
+        . "Reply \"stop\" and I won't contact you again. "
+        . "Nothing in this email is binding without a fully signed written agreement.";
+    $sent = wp_mail(
+        $email,
+        'Your seller net estimate: ' . $money( $net ),
+        $guest_body,
+        [ "Reply-To: Jarred Donalson <{$agent_email}>", 'Content-Type: text/plain; charset=UTF-8' ]
+    );
+
+    // 2) Lead notification to Jarred
+    $lead_body = "New Seller Net Calculator lead\n\n"
+        . "Name: {$name}\nEmail: {$email}\nPhone: " . ( $phone ?: '(not given)' ) . "\n"
+        . "Agreed to be contacted: yes\n"
+        . 'Time: ' . wp_date( 'M j, Y g:i a' ) . "\n\n"
+        . $sheet;
+    wp_mail(
+        $agent_email,
+        "Seller net lead: {$name} (" . $money( $price ) . ')',
+        $lead_body,
+        [ "Reply-To: {$name} <{$email}>", 'Content-Type: text/plain; charset=UTF-8' ]
+    );
+
+    if ( $sent ) {
+        wp_send_json_success( [ 'message' => "Sent to {$email}. Check your inbox (and spam folder, just in case)." ] );
+    }
+    wp_send_json_error( [ 'message' => 'The email did not go through. Please try again, or use Print or save as PDF.' ] );
+}
+add_action( 'wp_ajax_jarred_seller_net',        'jarred_re_handle_seller_net' );
+add_action( 'wp_ajax_nopriv_jarred_seller_net', 'jarred_re_handle_seller_net' );
