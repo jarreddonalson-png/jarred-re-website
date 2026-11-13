@@ -533,3 +533,59 @@ src="https://www.facebook.com/tr?id=2105634249988430&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 <?php }, 20);
+
+/* ============================================================
+   META PIXEL — LEAD EVENTS (sitewide)
+   Sends a "Lead" to Meta only after the server confirms a
+   successful submit of one of the site's lead forms. Sends the
+   form name and page path only, never the visitor's details.
+   ============================================================ */
+add_action( 'wp_head', function () { ?>
+<script>
+(function () {
+  var LEAD_FORMS = {
+    jarred_contact: 'Contact form',
+    jarred_inherited_guide: 'Inherited Home Guide',
+    jarred_seller_net: 'Seller Net Calculator'
+  };
+  function getAction(body) {
+    try {
+      if (!body) return null;
+      if (typeof FormData !== 'undefined' && body instanceof FormData) return body.get('action');
+      if (typeof URLSearchParams !== 'undefined' && body instanceof URLSearchParams) return body.get('action');
+      if (typeof body === 'string') return new URLSearchParams(body).get('action');
+    } catch (e) {}
+    return null;
+  }
+  function checkResponse(action, text) {
+    try {
+      var res = JSON.parse(text);
+      if (res && res.success && window.fbq) {
+        fbq('track', 'Lead', { content_name: LEAD_FORMS[action], content_category: window.location.pathname });
+      }
+    } catch (e) {}
+  }
+  if (window.fetch) {
+    var origFetch = window.fetch;
+    window.fetch = function (input, init) {
+      var action = getAction(init && init.body);
+      var p = origFetch.apply(window, arguments);
+      if (LEAD_FORMS[action]) {
+        p.then(function (r) { return r.clone().text(); })
+         .then(function (t) { checkResponse(action, t); })
+         .catch(function () {});
+      }
+      return p;
+    };
+  }
+  var origSend = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.send = function (body) {
+    var action = getAction(body), xhr = this;
+    if (LEAD_FORMS[action]) {
+      xhr.addEventListener('load', function () { checkResponse(action, xhr.responseText); });
+    }
+    return origSend.apply(this, arguments);
+  };
+})();
+</script>
+<?php }, 21 );
